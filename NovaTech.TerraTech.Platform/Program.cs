@@ -5,6 +5,9 @@ using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configur
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
+using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,7 +68,9 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Bounded Context Injection Configuration
-// TODO: Define Bounded Context Injection Configuration
+// Notification Management Context
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 var app = builder.Build();
 
