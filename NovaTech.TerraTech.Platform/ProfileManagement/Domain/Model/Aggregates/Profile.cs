@@ -1,0 +1,57 @@
+using NovaTech.TerraTech.Platform.ProfileManagement.Domain.Model.Commands;
+using NovaTech.TerraTech.Platform.ProfileManagement.Domain.Model.ValueObjects;
+
+namespace NovaTech.TerraTech.Platform.ProfileManagement.Domain.Model.Aggregates;
+
+/// <summary>
+///     Profile Aggregate Root
+/// </summary>
+/// <remarks>
+///     This class represents the Profile aggregate root for TerraTech.
+///     It contains the properties and methods to manage the agricultural profile information.
+/// </remarks>
+public partial class Profile
+{
+    
+    public Profile()
+    {
+        UserId = string.Empty;
+        Name = new FundoName();
+        Phone = new ContactPhone();
+        Thresholds = new ProfileThresholds();
+    }
+    
+    public Profile(string userId, string fundoName, string contactPhone, double moistureThreshold, double tempThreshold)
+    {
+        UserId = userId;
+        Name = new FundoName(fundoName);
+        Phone = new ContactPhone(contactPhone);
+        Thresholds = new ProfileThresholds(moistureThreshold, tempThreshold);
+    }
+    
+    public Profile(CreateProfileCommand command)
+    {
+        UserId = command.UserId;
+        Name = new FundoName(command.FundoName);
+        Phone = new ContactPhone(command.ContactPhone);
+        Thresholds = new ProfileThresholds(command.MoistureThreshold, command.TempThreshold);
+    }
+    
+    public int Id { get; private set; }
+    public string UserId { get; private set; }
+    public FundoName Name { get; private set; }
+    public ContactPhone Phone { get; private set; }
+    public ProfileThresholds Thresholds { get; private set; }
+    
+    public string FundoNameString => Name.Name;
+    public string ContactPhoneString => Phone.Number;
+    public double MoistureThresholdValue => Thresholds.Moisture;
+    public double TempThresholdValue => Thresholds.Temperature;
+    
+    public void Update(string fundoName, string contactPhone, double moistureThreshold, double tempThreshold)
+    {
+        Name = new FundoName(fundoName);
+        Phone = new ContactPhone(contactPhone);
+        Thresholds = new ProfileThresholds(moistureThreshold, tempThreshold);
+    }
+}
