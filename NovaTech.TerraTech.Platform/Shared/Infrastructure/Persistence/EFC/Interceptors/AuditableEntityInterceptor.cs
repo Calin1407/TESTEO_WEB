@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using NovaTech.TerraTech.Platform.Shared.Domain.Model;
+using NovaTech.TerraTech.Platform.Shared.Domain.Model.Entities;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 

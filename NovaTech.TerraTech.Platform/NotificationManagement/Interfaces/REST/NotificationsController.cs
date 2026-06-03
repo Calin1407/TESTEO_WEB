@@ -6,7 +6,7 @@ using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Commands;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Queries;
 using NovaTech.TerraTech.Platform.NotificationManagement.Interfaces.REST.Resources;
 using NovaTech.TerraTech.Platform.NotificationManagement.Interfaces.REST.Transform;
-using NovaTech.TerraTech.Platform.Shared.Application.Patterns;
+using NovaTech.TerraTech.Platform.Shared.Application.Model;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace NovaTech.TerraTech.Platform.NotificationManagement.Interfaces.REST;
@@ -33,13 +33,11 @@ public class NotificationsController(
             
             if (result.IsSuccess)
             {
-                var success = (Result<Notification, NotificationError>.Success)result;
-                return CreatedAtAction(nameof(GetNotificationById), new { id = success.Value.Id }, 
-                    NotificationResourceFromEntityAssembler.ToResourceFromEntity(success.Value));
+                return CreatedAtAction(nameof(GetNotificationById), new { id = result.Value.Id }, 
+                    NotificationResourceFromEntityAssembler.ToResourceFromEntity(result.Value));
             }
             
-            var failure = (Result<Notification, NotificationError>.Failure)result;
-            return failure.Error switch
+            return (NotificationError)result.Error switch
             {
                 NotificationError.InvalidTitle or NotificationError.InvalidMessage or NotificationError.InvalidProfileId 
                     => BadRequest("Invalid notification request"),
@@ -72,8 +70,7 @@ public class NotificationsController(
                 return Ok(new { message = "Notification marked as read" });
             }
             
-            var failure = (Result<bool, NotificationError>.Failure)result;
-            return failure.Error == NotificationError.NotFound ? NotFound() : 
+            return (NotificationError)result.Error == NotificationError.NotFound ? NotFound() : 
                 Problem(title: "Unexpected server error", statusCode: 500);
         }
         catch (Exception ex)
