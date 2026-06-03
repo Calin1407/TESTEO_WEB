@@ -1,6 +1,9 @@
-﻿namespace NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Aggregates;
+﻿using NovaTech.TerraTech.Platform.Shared.Domain.Model;
 
-public class NotificationAudit
+namespace NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Aggregates;
+
+public partial class Notification : IAuditableEntity
 {
-    
+    public DateTimeOffset? CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }
