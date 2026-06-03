@@ -1,45 +1,40 @@
-using NovaTech.TerraTech.Platform.Resources;
+using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
+using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Resources;
+using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
+using Cortex.Mediator.Commands;
+using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
-using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
-using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Configure Lower Case URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
-// Localization Configuration
-builder.Services.AddLocalization();
-
-// Configure Kebab Case Route Naming Convention
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()))
     .AddDataAnnotationsLocalization();
 
-// Register RFC 7807 ProblemDetails payloads for centralized exception handling.
-builder.Services.AddProblemDetails(options =>
-{
-    options.CustomizeProblemDetails = context =>
-    {
-        if (context.ProblemDetails.Status is null or >= 500)
-        {
-            var localizer = context.HttpContext.RequestServices.GetRequiredService<IStringLocalizer<SharedResource>>();
-            context.ProblemDetails.Title ??= localizer["UnexpectedServerError"].Value;
-            context.ProblemDetails.Detail ??= localizer["UnexpectedErrorProcessingRequest"].Value;
-        }
-    };
-});
+// Add ProblemDetails services
+builder.Services.AddProblemDetails();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.EnableAnnotations());
+
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllPolicy",
+        policy => policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 // Add Database Connection
 
@@ -60,6 +55,50 @@ builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
 
     if (builder.Environment.IsDevelopment())
         options.EnableSensitiveDataLogging();
+});
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// Explicitly register IStringLocalizer for ErrorMessages and Commons
+builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
+builder.Services
+    .AddSingleton<IStringLocalizer<CommonMessages>,
+        StringLocalizer<CommonMessages>>(); // Corrected from Common to Commons
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1",
+        new OpenApiInfo
+        {
+            Title = "Acme.Center.Platform",
+            Version = "v1",
+            Description = "ACME Learning Center Platform API",
+            TermsOfService = new Uri("https://acme-learning.com/tos"),
+            Contact = new OpenApiContact
+            {
+                Name = "ACME Studios",
+                Email = "contact@acme.com"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "Apache 2.0",
+                Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+            }
+        });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        { [new OpenApiSecuritySchemeReference("bearer", document)] = [] });
+    options.EnableAnnotations();
 });
 
 // Configure Dependency Injection
@@ -85,21 +124,25 @@ using (var scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
-// Swagger UI is intentionally enabled in all environments (including production)
-// to support learning, onboarding, and exploratory testing of this API.
-// In security-sensitive deployments this should be restricted to authenticated users
-// or development/staging environments only.
-app.UseSwagger();
-app.UseSwaggerUI();
-
-// Localization Configuration
-string[] supportedCultures = ["en", "en-US", "es", "es-PE"];
+var supportedCultures = new[] { "en", "es" };
 var localizationOptions = new RequestLocalizationOptions()
     .SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
-localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+
 app.UseRequestLocalization(localizationOptions);
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Apply CORS Policy
+app.UseCors("AllowAllPolicy");
+
+// Add Authorization Middleware to Pipeline
+// app.UseRequestAuthorization();
 
 app.UseHttpsRedirection();
 
