@@ -1,5 +1,4 @@
 // Added for Enum
-
 namespace NovaTech.TerraTech.Platform.Shared.Application.Model;
 
 /// <summary>
