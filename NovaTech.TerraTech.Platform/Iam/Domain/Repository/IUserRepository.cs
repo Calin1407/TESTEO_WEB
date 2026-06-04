@@ -2,7 +2,7 @@ using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.ValueObjects;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 
-namespace NovaTech.TerraTech.Platform.Iam.Repository;
+namespace NovaTech.TerraTech.Platform.Iam.Domain.Repository;
 
 /// <summary>
 ///     The repository for User aggregate.
