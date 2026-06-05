@@ -14,18 +14,30 @@ namespace NovaTech.TerraTech.Platform.Iam.application.CommandServices;
 public interface IUserCommandService
 {
     /// <summary>
-    /// 
+    ///    Handle sign in command. 
     /// </summary>
-    /// <param name="command"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="command">
+    ///     The sign in command.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token.
+    /// </param>
+    /// <returns>
+    ///     The authenticated user and the JWT token.
+    /// </returns>
     Task<Result<(User user, string token)>> Handle(SignInCommand command, CancellationToken cancellationToken);
     
     /// <summary>
-    /// 
+    ///     Handle sign up command
     /// </summary>
-    /// <param name="command"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <param name="command">
+    ///     The sign-up command
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token
+    /// </param>
+    /// <returns>
+    ///     A confirmation message on successful creation
+    /// </returns>
     Task<Result> Handle(SignUpCommand command, CancellationToken cancellationToken);
 }
