@@ -18,10 +18,13 @@ public interface IUserRepository : IBaseRepository<User>
     /// <param name="email">
     ///     The unique email value object to search for.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token
+    /// </param>
     /// <returns>
     ///     The task results contains the User if found; in otherwise is null.
     /// </returns>
-    Task<User?> FindByEmailAsync(Email email);
+    Task<User?> FindByEmailAsync(Email email, CancellationToken cancellationToken);
     
     /// <summary>
     ///     Checks if a users Email already exists in the database.
@@ -29,8 +32,11 @@ public interface IUserRepository : IBaseRepository<User>
     /// <param name="email">
     ///     The email value object to validate uniqueness against.
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The cancellation token
+    /// </param>
     /// <returns>
     ///     True if the email is already; in otherwise is false.
     /// </returns>
-    Task<bool> ExistByEmailAsync(Email email);
+    Task<bool> ExistByEmailAsync(Email email, CancellationToken cancellationToken);
 }

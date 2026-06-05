@@ -9,15 +9,27 @@ namespace NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 /// <remarks>
 ///      This class is used to represent a user.
 /// </remarks>
-public partial class User(Email email, Password password)
+public partial class User(Email emailAddress, string passwordHash)
 {
-    public User() : this(null!, null!)
+    public User() : this(null!, string.Empty)
     {
     }
     
     public int Id { get; }
-    public Email Email { get; private set; } = email;
+    public Email EmailAddress { get; private set; } = emailAddress;
     
     [JsonIgnore]
-    public Password Password { get; private set; } = password;
+    public string PasswordHash { get; private set; } = passwordHash;
+
+    public User UpdateEmail(Email newEmail)
+    {
+        EmailAddress = newEmail;
+        return this;
+    }
+
+    public User UpdatePasswordHash(string newPasswordHash)
+    {
+        PasswordHash = newPasswordHash;
+        return this;
+    }
 }
