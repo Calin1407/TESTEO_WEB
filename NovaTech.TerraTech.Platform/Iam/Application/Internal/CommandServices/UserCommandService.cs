@@ -74,7 +74,7 @@ public class UserCommandService(
     /// </returns>
     public async Task<Result> Handle(SignUpCommand command, CancellationToken cancellationToken)
     {
-        if (await userRepository.ExistByEmailAsync(new Email(command.Email), cancellationToken))
+        if (await userRepository.ExistsByEmailAsync(new Email(command.Email), cancellationToken))
         {
             return Result.Failure(IamError.UsernameAlreadyTaken,
                 _localizer[nameof(IamError.UsernameAlreadyTaken), command.Email]);
