@@ -38,5 +38,5 @@ public interface IUserRepository : IBaseRepository<User>
     /// <returns>
     ///     True if the email is already; in otherwise is false.
     /// </returns>
-    Task<bool> ExistByEmailAsync(Email email, CancellationToken cancellationToken);
+    Task<bool> ExistsByEmailAsync(Email email, CancellationToken cancellationToken);
 }
