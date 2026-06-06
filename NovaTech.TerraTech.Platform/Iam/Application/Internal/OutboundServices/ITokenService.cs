@@ -1,6 +1,6 @@
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 
-namespace NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+namespace NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 
 /// <summary>
 ///     The token service interface

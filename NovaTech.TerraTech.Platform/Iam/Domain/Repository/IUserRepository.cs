@@ -15,7 +15,7 @@ public interface IUserRepository : IBaseRepository<User>
     /// <summary>
     ///     Finds a user by their validated email address.
     /// </summary>
-    /// <param name="email">
+    /// <param name="emailAddress">
     ///     The unique email value object to search for.
     /// </param>
     /// <param name="cancellationToken">
@@ -24,12 +24,12 @@ public interface IUserRepository : IBaseRepository<User>
     /// <returns>
     ///     The task results contains the User if found; in otherwise is null.
     /// </returns>
-    Task<User?> FindByEmailAsync(Email email, CancellationToken cancellationToken);
+    Task<User?> FindByEmailAsync(Email emailAddress, CancellationToken cancellationToken);
     
     /// <summary>
     ///     Checks if a users Email already exists in the database.
     /// </summary>
-    /// <param name="email">
+    /// <param name="emailAddress">
     ///     The email value object to validate uniqueness against.
     /// </param>
     /// <param name="cancellationToken">
@@ -38,5 +38,5 @@ public interface IUserRepository : IBaseRepository<User>
     /// <returns>
     ///     True if the email is already; in otherwise is false.
     /// </returns>
-    Task<bool> ExistsByEmailAsync(Email email, CancellationToken cancellationToken);
+    Task<bool> ExistsByEmailAsync(Email emailAddress, CancellationToken cancellationToken);
 }

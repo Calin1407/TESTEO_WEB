@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
 

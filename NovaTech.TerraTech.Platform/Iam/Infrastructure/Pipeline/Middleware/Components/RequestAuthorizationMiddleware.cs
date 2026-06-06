@@ -1,4 +1,4 @@
-using NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 using NovaTech.TerraTech.Platform.Iam.Application.QueryServices;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Queries;
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Pipeline.Middleware.Attributes;
@@ -20,8 +20,10 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
     ///     If the token is valid then it sets the user in HttpContext.Items["User"].
     /// </summary>
     public async Task InvokeAsync(HttpContext context, IUserQueryService userQueryService
-        , ITokenService tokenService, CancellationToken cancellationToken)
+        , ITokenService tokenService)
     {
+        var cancellationToken = context.RequestAborted;
+        
         Console.WriteLine("Entering InvokeAsync");
         var allowAnonymous = context.Request.HttpContext.GetEndpoint()!.Metadata
             .Any(m => m.GetType() == typeof(AllowAnonymousAttribute));
@@ -35,7 +37,21 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         }
         
         Console.WriteLine("Entering authorization");
-        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+
+        if (string.IsNullOrEmpty(authHeader))
+        {
+            throw new Exception("Null or invalid token (Authorization header is missing)");
+        }
+        
+        var token = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+            ? authHeader.Substring(7).Trim()
+            : authHeader.Trim();
+
+        if (string.IsNullOrEmpty(token))
+        {
+            throw new Exception("Null or invalid token (Token string is empty)");
+        }
         
         if (token == null) throw new Exception("Null or Invalid token");
         

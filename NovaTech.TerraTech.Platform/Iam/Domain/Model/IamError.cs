@@ -9,5 +9,5 @@ public enum IamError
     OperationCancelled,
     DatabaseError,
     InternalServerError,
-    ExternalServerError
+    ExternalServiceError
 }

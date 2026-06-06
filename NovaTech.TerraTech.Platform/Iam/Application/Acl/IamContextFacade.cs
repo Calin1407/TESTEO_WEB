@@ -1,4 +1,4 @@
-using NovaTech.TerraTech.Platform.Iam.application.CommandServices;
+using NovaTech.TerraTech.Platform.Iam.Application.CommandServices;
 using NovaTech.TerraTech.Platform.Iam.Application.QueryServices;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Commands;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Queries;

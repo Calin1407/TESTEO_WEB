@@ -1,4 +1,4 @@
-using NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace NovaTech.TerraTech.Platform.Iam.Infrastructure.Hashing.BCrypt.Services;

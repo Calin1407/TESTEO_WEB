@@ -1,4 +1,4 @@
-namespace NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+namespace NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 
 /// <summary>
 ///     The hashing service interface.

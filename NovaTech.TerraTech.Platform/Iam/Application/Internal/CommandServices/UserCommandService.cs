@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
-using NovaTech.TerraTech.Platform.Iam.application.CommandServices;
-using NovaTech.TerraTech.Platform.Iam.application.Internal.OutboundServices;
+using NovaTech.TerraTech.Platform.Iam.Application.CommandServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Commands;
@@ -11,7 +11,7 @@ using NovaTech.TerraTech.Platform.Shared.Application.Model;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 
-namespace NovaTech.TerraTech.Platform.Iam.application.Internal.CommandServices;
+namespace NovaTech.TerraTech.Platform.Iam.Application.Internal.CommandServices;
 
 /// <summary>
 ///     The user command service.
