@@ -12,12 +12,12 @@ namespace NovaTech.TerraTech.Platform.Monitoring.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-[Tags("Field")]
-public class FieldController(
+[Tags("Fields")]
+public class FieldsController(
     IFieldCommandService fieldCommandService,
     IFieldQueryService fieldQueryService,
     IStringLocalizer<CommonMessages> localizer,
-    ILogger<FieldController> logger)
+    ILogger<FieldsController> logger)
     : ControllerBase
 {
     
