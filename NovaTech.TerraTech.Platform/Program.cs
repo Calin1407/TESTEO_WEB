@@ -1,6 +1,11 @@
 using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Services;
+using NovaTech.TerraTech.Platform.Monitoring.Domain.Repositories;
+using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Internal.QueryServices;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Internal.CommandServices;
 using NovaTech.TerraTech.Platform.Shared.Resources;
 using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
@@ -111,9 +116,13 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
+// Monitoring Context
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
+builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
+
 var app = builder.Build();
 
-// Apply pending migrations on startup (safe to call even when schema is up to date)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
