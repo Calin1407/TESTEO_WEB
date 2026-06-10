@@ -12,10 +12,6 @@ namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Conf
 /// </summary>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Notification> Notifications { get; set; }
-    // public DbSet<Profile> Profiles { get; set; }
-    public DbSet<Inventory> Inventories { get; set; }
-    
     /// <inheritdoc />
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
