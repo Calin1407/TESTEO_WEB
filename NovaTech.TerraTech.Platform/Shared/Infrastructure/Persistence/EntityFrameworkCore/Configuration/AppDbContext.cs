@@ -1,9 +1,9 @@
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
-using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 
-namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
+namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
 /// <summary>
 ///     Application database context

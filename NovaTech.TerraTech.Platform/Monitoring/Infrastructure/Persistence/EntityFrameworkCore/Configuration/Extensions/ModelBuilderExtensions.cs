@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.Monitoring.Domain.Model.Aggregates;
-using NovaTech.TerraTech.Platform.Monitoring.Domain.Model.ValueObjects;
 
-namespace NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
+namespace NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
 public static class ModelBuilderExtensions
 {

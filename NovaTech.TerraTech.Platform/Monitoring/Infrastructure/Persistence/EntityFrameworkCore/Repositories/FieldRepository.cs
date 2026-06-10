@@ -1,11 +1,11 @@
+using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.Monitoring.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Monitoring.Domain.Model.ValueObjects;
 using NovaTech.TerraTech.Platform.Monitoring.Domain.Repositories;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
-namespace NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Repositories;
+namespace NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 public class FieldRepository(AppDbContext context) : BaseRepository<Field>(context), IFieldRepository
 {
