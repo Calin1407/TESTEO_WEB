@@ -21,6 +21,7 @@ using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFramew
 using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
 using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Interfaces.Rest.ProblemDetails;
 
 // Using Bounded Iam
 using NovaTech.TerraTech.Platform.Iam.Application.Acl;
@@ -127,12 +128,9 @@ builder.Services.AddSwaggerGen(options =>
 
 // Shared Bounded Context Injection Configuration
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<NovaTech.TerraTech.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory>();
 
 // Bounded Context Injection Configuration
-// Notification Management Context
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
-builder.Services.AddScoped<INotificationService, NotificationService>();
-
 // Monitoring Context
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
@@ -141,6 +139,10 @@ builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
 // Stock Management Context
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IStockService, StockService>();
+
+// Notification Management Context
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // IAM Context
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
@@ -156,15 +158,6 @@ builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
 builder.Services.AddCortexMediator([typeof(Program)]);
-
-// Monitoring Context
-builder.Services.AddScoped<IFieldRepository, FieldRepository>();
-builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
-builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
-
-// Stock Management Context
-builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
-builder.Services.AddScoped<IStockService, StockService>();
 
 var app = builder.Build();
 
@@ -197,9 +190,9 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAllPolicy");
 
 // Add Authorization Middleware to Pipeline
-app.UserRequestAuthorization();
-
 app.UseHttpsRedirection();
+
+app.UserRequestAuthorization();
 
 app.UseAuthorization();
 
