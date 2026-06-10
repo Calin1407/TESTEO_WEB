@@ -1,8 +1,9 @@
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 
-namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
+namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
 /// <summary>
 ///     Application database context
@@ -22,24 +23,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // Monitoring Context
+        builder.ApplyMonitoringConfiguration();
+
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
     }
