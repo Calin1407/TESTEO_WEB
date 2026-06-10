@@ -1,6 +1,6 @@
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
-using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
+using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -23,8 +23,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         
-        // TODO: Define data annotations and Fluent API configurations for bounded context entities here.
-
         // Monitoring Context
         builder.ApplyMonitoringConfiguration();
 
