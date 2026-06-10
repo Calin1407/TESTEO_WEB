@@ -1,9 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Aggregates;
-using NovaTech.TerraTech.Platform.ProfileManagement.Domain.Model.Aggregates;
-using NovaTech.TerraTech.Platform.StockManagement.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
+using Microsoft.EntityFrameworkCore;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -12,10 +9,6 @@ namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Conf
 /// </summary>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Notification> Notifications { get; set; }
-    // public DbSet<Profile> Profiles { get; set; }
-    public DbSet<Inventory> Inventories { get; set; }
-    
     /// <inheritdoc />
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
@@ -34,12 +27,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         // Stock Management Context
         builder.ApplyStockConfiguration();
-
-        // Profile Management Context (cuando lo tengas)
-        // builder.ApplyProfileConfiguration();
-
-        // Monitoring Context (cuando lo tengas)
-        // builder.ApplyMonitoringConfiguration();
 
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
