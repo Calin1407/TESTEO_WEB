@@ -1,6 +1,9 @@
 using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
+using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EFC.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Resources;
 using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
@@ -64,7 +67,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
 builder.Services
     .AddSingleton<IStringLocalizer<CommonMessages>,
-        StringLocalizer<CommonMessages>>(); // Corrected from Common to Commons
+        StringLocalizer<CommonMessages>>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -111,14 +114,18 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 
+// Stock Management Context
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
+
 var app = builder.Build();
 
-// Apply pending migrations on startup (safe to call even when schema is up to date)
+// Ensure database is created and all tables are created automatically
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
-    context.Database.Migrate();
+    context.Database.EnsureCreated();
 }
 
 // Configure the HTTP request pipeline.
