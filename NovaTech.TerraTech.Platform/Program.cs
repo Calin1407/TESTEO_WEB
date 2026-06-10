@@ -19,6 +19,9 @@ using Microsoft.OpenApi;
 using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
+using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +72,7 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 builder.Services.AddSingleton<IStringLocalizer<ErrorMessages>, StringLocalizer<ErrorMessages>>();
 builder.Services
     .AddSingleton<IStringLocalizer<CommonMessages>,
-        StringLocalizer<CommonMessages>>(); // Corrected from Common to Commons
+        StringLocalizer<CommonMessages>>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -121,8 +124,13 @@ builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
 builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
 
+// Stock Management Context
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
+
 var app = builder.Build();
 
+// Ensure database is created and all tables are created automatically
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
