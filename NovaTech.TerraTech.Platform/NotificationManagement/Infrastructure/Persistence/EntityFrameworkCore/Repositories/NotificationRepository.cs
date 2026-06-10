@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
-namespace NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+namespace NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 public class NotificationRepository(AppDbContext context) : BaseRepository<Notification>(context), INotificationRepository
 {

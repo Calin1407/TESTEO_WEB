@@ -1,12 +1,14 @@
 using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Services;
+using NovaTech.TerraTech.Platform.Monitoring.Domain.Repositories;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Internal.QueryServices;
+using NovaTech.TerraTech.Platform.Monitoring.Application.Internal.CommandServices;
 using NovaTech.TerraTech.Platform.Shared.Resources;
 using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using Cortex.Mediator.Commands;
@@ -14,6 +16,12 @@ using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.OpenApi;
+using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
+using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 // Using Bounded Iam
 using NovaTech.TerraTech.Platform.Iam.Application.Acl;
@@ -29,6 +37,9 @@ using NovaTech.TerraTech.Platform.Iam.Infrastructure.Pipeline.Middleware.Extensi
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
 using NovaTech.TerraTech.Platform.Iam.Interface.Acl;
+using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,9 +92,6 @@ builder.Services
     .AddSingleton<IStringLocalizer<CommonMessages>,
         StringLocalizer<CommonMessages>>(); // Corrected from Common to Commons
 
-builder.Services.
-    AddSingleton<NovaTech.TerraTech.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -128,6 +136,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Notification Management Context
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+
+// Monitoring Context
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
+builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
+
+// Stock Management Context
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
 
 // IAM Context
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));

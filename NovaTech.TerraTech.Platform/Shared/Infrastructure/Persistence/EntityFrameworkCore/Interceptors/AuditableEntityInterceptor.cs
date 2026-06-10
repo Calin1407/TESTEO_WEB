@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using NovaTech.TerraTech.Platform.Shared.Domain.Model.Entities;
 
-namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
+namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 
 /// <summary>
 ///     EF Core interceptor that automatically populates audit timestamps on any entity

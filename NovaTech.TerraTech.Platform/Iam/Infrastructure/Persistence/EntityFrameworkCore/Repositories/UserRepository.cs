@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.ValueObjects;
 using NovaTech.TerraTech.Platform.Iam.Domain.Repository;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 namespace NovaTech.TerraTech.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
