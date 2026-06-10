@@ -12,21 +12,32 @@ namespace NovaTech.TerraTech.Platform.Iam.Infrastructure.Persistence.EntityFrame
 public static class ModelBuilderExtensions
 {
     /// <summary>
-    ///     The API configuration rules for the IAM context.
+    ///     The API configuration table of User.
     /// </summary>
     /// <param name="builder">
     ///     The ModelBuilder instance.
     /// </param>
     public static void ApplyIamConfiguration(this ModelBuilder builder)
     {
-        builder.Entity<User>().HasKey(u => u.Id);
-        builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-        // This case is special, because 'EmailAddress' is a value object, not a primitive variable. 
-        builder.Entity<User>().OwnsOne(u => u.EmailAddress, email =>
+        builder.Entity<User>(user =>
         {
-            email.Property(e => e.Value).HasColumnName("EmailAddress").IsRequired();
-            email.HasIndex(e => e.Value).IsUnique();
+            user.ToTable("users");
+            user.HasKey(u => u.Id);
+            user.Property(u => u.Id).ValueGeneratedOnAdd();
+
+            user.OwnsOne(u => u.EmailAddress, email =>
+            {
+                email.WithOwner().HasForeignKey("Id");
+
+                email.Property(e => e.Value)
+                    .HasColumnName("email_address")
+                    .IsRequired()
+                    .HasMaxLength(255);
+                email.HasIndex(e => e.Value).IsUnique();
+            });
+            user.Property(u => u.PasswordHash).IsRequired();
+            user.Property(u => u.CreatedAt);
+            user.Property(u => u.UpdatedAt);
         });
-        builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
     }
 }

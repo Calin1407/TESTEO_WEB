@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.Iam.Domain.Model.Aggregates;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -22,27 +24,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         
-        // TODO: Define data annotations and Fluent API configurations for bounded context entities here.
-        
-        // Bounded Context Iam 
-        builder.Entity<User>(entity =>
-        {
-            entity.ToTable("users");
-            entity.HasKey(u => u.Id);
-            entity.Property(u => u.Id).ValueGeneratedOnAdd();
-        
-            entity.OwnsOne(u => u.EmailAddress, email =>
-            {
-                email.Property(e => e.Value)
-                    .HasColumnName("email_address")
-                    .IsRequired()
-                    .HasMaxLength(255);
-                email.HasIndex(e => e.Value).IsUnique();
-            });
+        builder.ApplyIamConfiguration();
 
-            entity.Property(u => u.PasswordHash).IsRequired();
-            entity.Property(u => u.CreatedAt);
-            entity.Property(u => u.UpdatedAt);
-        });
+        
+        
+        
+        
+
+
+
+
+        builder.UseSnakeCaseNamingConvention();
     }
 }
