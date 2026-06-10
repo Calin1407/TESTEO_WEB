@@ -3,13 +3,10 @@ using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
 using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
 using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
-using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EFC.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Resources;
 using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using Cortex.Mediator.Commands;
@@ -17,6 +14,9 @@ using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.OpenApi;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

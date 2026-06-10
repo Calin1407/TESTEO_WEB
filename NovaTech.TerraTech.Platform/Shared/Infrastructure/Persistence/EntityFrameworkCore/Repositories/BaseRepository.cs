@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
-namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Repositories;
+namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 /// <summary>
 ///     Generic base repository providing CRUD operations for all entity types.

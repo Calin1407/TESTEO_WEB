@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.StockManagement.Domain.Model.Aggregates;
 
-namespace NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EFC.Configuration.Extensions;
+namespace NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
 public static class ModelBuilderExtensions
 {
