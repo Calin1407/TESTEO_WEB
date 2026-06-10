@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
-using Microsoft.EntityFrameworkCore;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 
