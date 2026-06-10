@@ -1,6 +1,6 @@
 using NovaTech.TerraTech.Platform.NotificationManagement.Application.Services;
 using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Repositories;
-using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Repositories;
+using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using NovaTech.TerraTech.Platform.Monitoring.Application.Services;
 using NovaTech.TerraTech.Platform.Monitoring.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Monitoring.Application.Internal.QueryServices;
@@ -10,7 +10,6 @@ using NovaTech.TerraTech.Platform.Shared.Resources.Errors;
 using NovaTech.TerraTech.Platform.Shared.Domain.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Mediator.Cortex.Configuration;
-using NovaTech.TerraTech.Platform.Shared.Infrastructure.Pipeline.Middleware.Extensions;
 using Cortex.Mediator.Commands;
 using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +21,21 @@ using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFramew
 using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
 using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+
+// Using Bounded Iam
+using NovaTech.TerraTech.Platform.Iam.Application.Acl;
+using NovaTech.TerraTech.Platform.Iam.Application.CommandServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.CommandServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.OutboundServices;
+using NovaTech.TerraTech.Platform.Iam.Application.Internal.QueryServices;
+using NovaTech.TerraTech.Platform.Iam.Application.QueryServices;
+using NovaTech.TerraTech.Platform.Iam.Domain.Repository;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Hashing.BCrypt.Services;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Pipeline.Middleware.Extensions;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
+using NovaTech.TerraTech.Platform.Iam.Interface.Acl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,10 +116,10 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
-        Scheme = "bearer"
+        Scheme = "Bearer"
     });
     options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
-        { [new OpenApiSecuritySchemeReference("bearer", document)] = [] });
+        { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
     options.EnableAnnotations();
 });
 
@@ -118,6 +132,30 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Notification Management Context
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+
+// Monitoring Context
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
+builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
+
+// Stock Management Context
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
+
+// IAM Context
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+// Configuration mediator
+
+builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
+builder.Services.AddCortexMediator([typeof(Program)]);
 
 // Monitoring Context
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
@@ -159,7 +197,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAllPolicy");
 
 // Add Authorization Middleware to Pipeline
-// app.UseRequestAuthorization();
+app.UserRequestAuthorization();
 
 app.UseHttpsRedirection();
 

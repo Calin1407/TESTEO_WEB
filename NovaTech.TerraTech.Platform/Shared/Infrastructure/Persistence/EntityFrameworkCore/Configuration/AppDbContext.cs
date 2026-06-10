@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.Iam.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Monitoring.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
@@ -24,15 +26,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
+        // Identity and Access Management Context
+        builder.ApplyIamConfiguration();
         // Notification Management Context
         builder.ApplyNotificationConfiguration();
-        
         // Monitoring Context
         builder.ApplyMonitoringConfiguration();
         // Stock Management Context
         builder.ApplyStockConfiguration();
-
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
     }
