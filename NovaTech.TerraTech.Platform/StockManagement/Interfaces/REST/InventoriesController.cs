@@ -12,12 +12,12 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace NovaTech.TerraTech.Platform.StockManagement.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/inventories")]
+[Route("api/v1/[controller]")]
 [Produces("application/json")]
 [Tags("Stocks")]
-public class InventoryController(
+public class InventoriesController(
     IStockService stockService,
-    ILogger<InventoryController> logger) : ControllerBase
+    ILogger<InventoriesController> logger) : ControllerBase
 {
     [HttpPost]
     [SwaggerOperation(Summary = "Creates a new inventories item", Description = "Creates an inventories item for a product")]
