@@ -14,13 +14,13 @@ namespace NovaTech.TerraTech.Platform.StockManagement.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces("application/json")]
-[Tags("Stock")]
-public class InventoryController(
+[Tags("Stocks")]
+public class InventoriesController(
     IStockService stockService,
-    ILogger<InventoryController> logger) : ControllerBase
+    ILogger<InventoriesController> logger) : ControllerBase
 {
     [HttpPost]
-    [SwaggerOperation(Summary = "Creates a new inventory item", Description = "Creates an inventory item for a product")]
+    [SwaggerOperation(Summary = "Creates a new inventories item", Description = "Creates an inventories item for a product")]
     [SwaggerResponse(201, "Inventory created", typeof(InventoryResource))]
     [SwaggerResponse(400, "Invalid request", typeof(string))]
     [SwaggerResponse(500, "Unexpected error", typeof(ProblemDetails))]
@@ -54,7 +54,7 @@ public class InventoryController(
     }
 
     [HttpPut("{id}")]
-    [SwaggerOperation(Summary = "Updates an inventory item", Description = "Updates the stock quantity of an inventory item")]
+    [SwaggerOperation(Summary = "Updates an inventories item", Description = "Updates the stock quantity of an inventories item")]
     [SwaggerResponse(200, "Inventory updated", typeof(InventoryResource))]
     [SwaggerResponse(404, "Inventory not found", typeof(string))]
     [SwaggerResponse(500, "Unexpected error", typeof(ProblemDetails))]
@@ -81,7 +81,7 @@ public class InventoryController(
     }
 
     [HttpGet]
-    [SwaggerOperation(Summary = "Gets all inventory items")]
+    [SwaggerOperation(Summary = "Gets all inventories items", Description = "Retrieves all inventories items")]
     [SwaggerResponse(200, "Inventory retrieved", typeof(IEnumerable<InventoryResource>))]
     public async Task<IActionResult> GetAllInventory(CancellationToken cancellationToken)
     {
@@ -92,7 +92,7 @@ public class InventoryController(
     }
 
     [HttpGet("{id}")]
-    [SwaggerOperation(Summary = "Gets an inventory item by id")]
+    [SwaggerOperation(Summary = "Gets an inventories item by id", Description = "Retrieves an inventories item by its unique identifier")]
     [SwaggerResponse(200, "Inventory found", typeof(InventoryResource))]
     [SwaggerResponse(404, "Inventory not found")]
     public async Task<IActionResult> GetInventoryById(int id, CancellationToken cancellationToken)
