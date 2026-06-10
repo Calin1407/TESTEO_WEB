@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Interceptors;
-using NovaTech.TerraTech.Platform.NotificationManagement.Domain.Model.Aggregates;
+using Microsoft.EntityFrameworkCore;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -9,8 +9,6 @@ namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EFC.Conf
 /// </summary>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Notification> Notifications { get; set; }
-    
     /// <inheritdoc />
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
@@ -24,18 +22,25 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         base.OnModelCreating(builder);
         
-        builder.Entity<Notification>(entity =>
-        {
-            entity.ToTable("notifications");
-            entity.HasKey(n => n.Id);
-            entity.Property(n => n.Id).ValueGeneratedOnAdd();
-            entity.Property(n => n.ProfileId).IsRequired().HasMaxLength(255);
-            entity.Property(n => n.Title).IsRequired().HasMaxLength(255);
-            entity.Property(n => n.Message).IsRequired().HasMaxLength(1000);
-            entity.Property(n => n.IsRead).IsRequired();
-            entity.Property(n => n.IsAlert).IsRequired();
-            entity.Property(n => n.CreatedAt);
-            entity.Property(n => n.UpdatedAt);
-        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // General Naming Convention for the database objects
+        builder.UseSnakeCaseNamingConvention();
     }
 }
