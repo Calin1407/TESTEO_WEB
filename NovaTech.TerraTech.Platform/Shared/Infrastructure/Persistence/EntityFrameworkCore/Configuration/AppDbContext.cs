@@ -5,6 +5,7 @@ using NovaTech.TerraTech.Platform.NotificationManagement.Infrastructure.Persiste
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
+using NovaTech.TerraTech.Platform.CommercialManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
@@ -28,12 +29,19 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(builder);
         // Identity and Access Management Context
         builder.ApplyIamConfiguration();
+        
+        // Commercial Management Context
+        builder.ApplyCommercialConfiguration();
+        
         // Notification Management Context
         builder.ApplyNotificationConfiguration();
+        
         // Monitoring Context
         builder.ApplyMonitoringConfiguration();
+        
         // Stock Management Context
         builder.ApplyStockConfiguration();
+        
         // General Naming Convention for the database objects
         builder.UseSnakeCaseNamingConvention();
     }
