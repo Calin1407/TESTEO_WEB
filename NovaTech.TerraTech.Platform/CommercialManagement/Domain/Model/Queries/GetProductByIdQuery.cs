@@ -1,6 +1,3 @@
 namespace NovaTech.TerraTech.Platform.CommercialManagement.Domain.Model.Queries;
 
-public class GetProductByIdQuery
-{
-    
-}
+public record GetProductByIdQuery(int Id);
