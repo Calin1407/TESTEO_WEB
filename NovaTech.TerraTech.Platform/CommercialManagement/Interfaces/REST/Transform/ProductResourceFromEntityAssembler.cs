@@ -11,7 +11,7 @@ public static class ProductResourceFromEntityAssembler
             product.Id,
             product.Name,
             product.Description,
-            product.Price.Amount,
+            product.Price,
             product.Type,
             product.ImageUrl ?? string.Empty
         );
