@@ -16,7 +16,7 @@ public partial class Order
         ProductId = command.ProductId;
         ProductName = product.Name;
         Quantity = command.Quantity;
-        TotalAmount = product.Price.Amount * command.Quantity;
+        TotalAmount = product.Price * command.Quantity;
         Status = OrderStatus.Pending;
         PaymentMethod = command.PaymentMethod;
         IsSubscription = command.IsSubscription;

@@ -5,15 +5,15 @@ namespace NovaTech.TerraTech.Platform.CommercialManagement.Interfaces.REST.Trans
 
 public static class ProductResourceFromEntityAssembler
 {
-    public static ProductResource ToResourceFromEntity(Product entity)
+    public static ProductResource ToResourceFromEntity(Product product)
     {
         return new ProductResource(
-            entity.Id,
-            entity.Name,
-            entity.Description,
-            entity.Price.Amount,
-            entity.Type,
-            entity.ImageUrl
+            product.Id,
+            product.Name,
+            product.Description,
+            product.Price.Amount,
+            product.Type,
+            product.ImageUrl ?? string.Empty
         );
     }
 }

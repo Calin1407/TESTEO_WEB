@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using NovaTech.TerraTech.Platform.CommercialManagement.Domain.Model.Aggregates;
-using NovaTech.TerraTech.Platform.CommercialManagement.Domain.Model.ValueObjects;
 
 namespace NovaTech.TerraTech.Platform.CommercialManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
@@ -64,18 +63,9 @@ public static class ModelBuilderExtensions
             entity.Property(p => p.Description)
                 .HasMaxLength(1000);
 
-            entity.OwnsOne(p => p.Price, money =>
-            {
-                money.Property(m => m.Amount)
-                    .HasColumnName("Price")
-                    .HasColumnType("decimal(18,2)")
-                    .IsRequired();
-
-                money.Property(m => m.Currency)
-                    .HasColumnName("Currency")
-                    .HasMaxLength(3)
-                    .IsRequired();
-            });
+            entity.Property(p => p.Price)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)");
 
             entity.Property(p => p.Type)
                 .IsRequired()

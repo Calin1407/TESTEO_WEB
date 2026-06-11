@@ -1,23 +1,15 @@
-using NovaTech.TerraTech.Platform.CommercialManagement.Domain.Model.Aggregates;
-using NovaTech.TerraTech.Platform.CommercialManagement.Interfaces.REST.Resources;
-
-namespace NovaTech.TerraTech.Platform.CommercialManagement.Interfaces.REST.Transform;
-
-public static class OrderResourceFromEntityAssembler
+public static OrderResource ToResourceFromEntity(Order order)
 {
-    public static OrderResource ToResourceFromEntity(Order entity)
-    {
-        return new OrderResource(
-            entity.Id,
-            entity.ProfileId,
-            entity.ProductId,
-            entity.ProductName,
-            entity.Quantity,
-            entity.TotalAmount,
-            entity.Status,
-            entity.PaymentMethod,
-            entity.CreatedAt ?? DateTimeOffset.UtcNow,
-            entity.IsSubscription
-        );
-    }
+    return new OrderResource(
+        order.Id,
+        order.ProfileId,
+        order.ProductId,
+        order.ProductName,
+        order.Quantity,
+        order.TotalAmount,  // Ahora es decimal directamente
+        order.Status,
+        order.PaymentMethod,
+        order.CreatedAt ?? DateTimeOffset.Now,
+        order.IsSubscription
+    );
 }
