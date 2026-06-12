@@ -12,7 +12,6 @@ namespace NovaTech.TerraTech.Platform.ProfileManagement.Domain.Model.Aggregates;
 /// </remarks>
 public partial class Profile
 {
-    
     public Profile()
     {
         UserId = string.Empty;
@@ -47,11 +46,4 @@ public partial class Profile
     public string ContactPhoneString => Phone.Number;
     public double MoistureThresholdValue => Thresholds.Moisture;
     public double TempThresholdValue => Thresholds.Temperature;
-    
-    public void Update(string fundoName, string contactPhone, double moistureThreshold, double tempThreshold)
-    {
-        Name = new FundoName(fundoName);
-        Phone = new ContactPhone(contactPhone);
-        Thresholds = new ProfileThresholds(moistureThreshold, tempThreshold);
-    }
 }

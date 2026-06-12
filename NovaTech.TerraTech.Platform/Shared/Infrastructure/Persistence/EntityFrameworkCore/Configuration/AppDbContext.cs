@@ -6,7 +6,7 @@ using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFramew
 using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Interceptors;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 using NovaTech.TerraTech.Platform.CommercialManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
-
+using NovaTech.TerraTech.Platform.ProfileManagement.Infrastructure.Persistence.EntityFrameworkCore.Configuration.Extensions;
 
 namespace NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFrameworkCore.Configuration;
 
@@ -38,6 +38,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         // Monitoring Context
         builder.ApplyMonitoringConfiguration();
+        
+        // Profiles Context
+        builder.ApplyProfileManagementConfiguration();
         
         // Stock Management Context
         builder.ApplyStockConfiguration();
