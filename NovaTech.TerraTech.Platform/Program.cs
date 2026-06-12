@@ -21,6 +21,9 @@ using NovaTech.TerraTech.Platform.Shared.Infrastructure.Persistence.EntityFramew
 using NovaTech.TerraTech.Platform.StockManagement.Application.Services;
 using NovaTech.TerraTech.Platform.StockManagement.Domain.Repositories;
 using NovaTech.TerraTech.Platform.StockManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
+using NovaTech.TerraTech.Platform.CommercialManagement.Application.Services;
+using NovaTech.TerraTech.Platform.CommercialManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.CommercialManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 using NovaTech.TerraTech.Platform.Shared.Interfaces.Rest.ProblemDetails;
 
 // Using Bounded Iam
@@ -37,6 +40,14 @@ using NovaTech.TerraTech.Platform.Iam.Infrastructure.Pipeline.Middleware.Extensi
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration;
 using NovaTech.TerraTech.Platform.Iam.Infrastructure.Tokens.Jwt.Services;
 using NovaTech.TerraTech.Platform.Iam.Interface.Acl;
+
+// Using Bounded ProfileManagement
+using NovaTech.TerraTech.Platform.ProfileManagement.Application.CommandServices;
+using NovaTech.TerraTech.Platform.ProfileManagement.Application.Internal.CommandServices;
+using NovaTech.TerraTech.Platform.ProfileManagement.Application.Internal.QueryServices;
+using NovaTech.TerraTech.Platform.ProfileManagement.Application.QueryServices;
+using NovaTech.TerraTech.Platform.ProfileManagement.Domain.Repositories;
+using NovaTech.TerraTech.Platform.ProfileManagement.Infrastructure.Persistence.EntityFrameworkCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,10 +142,22 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<NovaTech.TerraTech.Platform.Shared.Interfaces.Rest.ProblemDetails.ProblemDetailsFactory>();
 
 // Bounded Context Injection Configuration
+// Commercial Management Context
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
 // Monitoring Context
 builder.Services.AddScoped<IFieldRepository, FieldRepository>();
 builder.Services.AddScoped<IFieldCommandService, FieldCommandService>();
 builder.Services.AddScoped<IFieldQueryService, FieldQueryService>();
+
+//Profile Context
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+
 
 // Stock Management Context
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
